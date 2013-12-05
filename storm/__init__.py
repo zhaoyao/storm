@@ -42,6 +42,12 @@ class Storm(object):
         self.ssh_config.write_to_ssh_config()
 
         return True
+        
+    def get_entry(self, name):
+        for host_ in self.ssh_config.config_data:
+            if host_.get("host") == name:
+                return host_
+        return None        
 
     def list_entries(self, order=False, only_servers=False):
 
@@ -100,7 +106,4 @@ class Storm(object):
         return options
 
     def is_host_in(self, host):
-        for host_ in self.ssh_config.config_data:
-            if host_.get("host") == host:
-                return True
-        return False
+        return self.get_entry(host) is not None

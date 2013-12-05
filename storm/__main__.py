@@ -177,6 +177,27 @@ def search(search_text):
             print message
     except Exception as error:
         print get_formatted_message(str(error), 'error')
+        
+
+@command('show')
+@arg('raw', '--raw', action='store_true', required=False)
+def show(name, raw=False):
+    """
+    Show the specific entry
+    """        
+    try:
+        entry = storm_.get_entry(name)
+        if entry is None:
+            print ('no host found')
+            return
+            
+        opt = entry['options']
+        if raw:            
+            print opt['user'], opt['hostname'], opt['port']
+        else:            
+            print "{0} -> {1}@{2}:{3}".format(name, opt['user'], opt['hostname'], opt['port'])
+    except Exception as error:
+        print get_formatted_message(str(error), 'error')
 
 @command('delete_all')
 def delete_all():
